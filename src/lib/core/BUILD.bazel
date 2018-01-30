@@ -1,13 +1,20 @@
 package(default_visibility=["//visibility:public"])
 load("@angular//:index.bzl", "ng_module")
 load("@io_bazel_rules_sass//sass:sass.bzl", "sass_library", "sass_binary")
+load("@build_bazel_rules_typescript//:defs.bzl", "ts_config")
+
+ts_config(
+  name = "tsconfig",
+  src = ":tsconfig-build.json",
+  deps = ["//src/lib:tsconfig-build.json"],
+)
 
 
 ng_module(
   name = "core",
   srcs = glob(["**/*.ts"], exclude=["**/*.spec.ts"]),
   module_name = "@angular/material/core",
-  assets = [":pseudo_checkbox_css", ":option_css", ":optgroup_css"],
+  assets = [":pseudo_checkbox_css", ":option_css", ":optgroup_css", "option/option.html", "option/optgroup.html"],
   deps = [
     "//src/cdk/bidi",
     "//src/cdk/coercion",
@@ -15,7 +22,7 @@ ng_module(
     "//src/cdk/platform",
     "@rxjs",
   ],
-  tsconfig = ":tsconfig-build.json",
+  tsconfig = ":tsconfig",
 )
 
 
